@@ -1,0 +1,86 @@
+/* Estilo do botão do menu */
+.menu-button {
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Sem borda */
+    color: #0a0e13; /* Cor do ícone */
+    padding: 10px;
+    position: fixed; /* Fixar o botão na tela */
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* Garantir que fique acima de outros elementos */
+  }
+  
+  .menu-button:hover {
+    background-color: rgba(50, 55, 59, 0.1); /* Efeito hover suave */
+    color: #0a0e13;
+  }
+  
+  /* Estilo do menu lateral */
+  .custom-sidebar {
+    background-color: #f8f9fa; /* Cor de fundo */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Altura total da tela */
+    transform: translateX(-100%); /* Esconder o menu inicialmente */
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    padding: 20px; /* Espaçamento interno */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  .custom-sidebar.show {
+    transform: translateX(0); /* Mostrar o menu */
+  }
+  
+/* Estilo do conteúdo principal */
+.main-content {
+    margin-left: 0; /* Margem inicial */
+    transition: margin-left 0.3s ease-in-out; /* Animação suave */
+  }
+  
+  .main-content.shift-right {
+    margin-left: 395px; /* Deslocar o conteúdo para a direita */
+  }
+  
+  /* Estilo dos links do menu */
+  .custom-sidebar .nav-link {
+    color: #333; /* Cor dos links */
+    font-weight: bold;
+    padding: 10px 20px; /* Espaçamento interno */
+  }
+  
+  .custom-sidebar .nav-link:hover {
+    color: #007bff; /* Cor dos links ao passar o mouse */
+    background-color: rgba(0, 123, 255, 0.1); /* Efeito hover suave */
+  }
+  
+  .custom-sidebar .offcanvas-header {
+    border-bottom: 1px solid #ddd; /* Linha divisória no cabeçalho */
+  }
+  
+  .custom-sidebar .offcanvas-title {
+    font-size: 1.5rem; /* Tamanho do título */
+    font-weight: bold;
+  }
+
+  /* Remover o overlay do Offcanvas */
+.offcanvas-backdrop {
+    display: none !important;
+  }
+  
+  /* Garantir que o Offcanvas não cubra o conteúdo */
+  .custom-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    transform: translateX(-100%); /* Esconder o menu inicialmente */
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .custom-sidebar.show {
+    transform: translateX(0); /* Mostrar o menu */
+  }

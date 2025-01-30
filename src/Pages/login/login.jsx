@@ -6,6 +6,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // simulando o login, deixei com 2 sec para simular a requisição na api
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -32,17 +33,29 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label htmlFor="email" className="form-label text-black">
-              Email
+              E-mail
             </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-control"
-              placeholder="Digite seu e-mail"
-              required
-            />
+            <div className="input-group">
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-control"
+                placeholder="Digite seu e-mail"
+                required
+              />
+              <i
+                className="bi bi-envelope"
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  right: "10px",
+                  transform: "translateY(-50%)",
+                  cursor: "default",
+                }}
+              ></i>
+            </div>
           </div>
 
           <div className="mb-4 position-relative">

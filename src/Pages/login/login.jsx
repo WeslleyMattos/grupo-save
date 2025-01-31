@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   // simulando o login, deixei com 2 sec para simular a requisição na api
   const handleLogin = (e) => {
@@ -13,7 +15,7 @@ const Login = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-      alert(`Login realizado com: ${email}`);
+      navigate("/cadastro-empresas");
     }, 2000);
   };
 

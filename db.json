@@ -1,0 +1,49 @@
+{
+  "empresas": [
+    {
+      "id": "dfa9",
+      "cnpj": "1234567889",
+      "nome": "grupo save",
+      "nomeFantasia": "nao tem",
+      "contato": "47226573",
+      "email": "talemail@gmail.com",
+      "cep": "89265573",
+      "pais": "",
+      "estado": "",
+      "cidade": "",
+      "rua": "",
+      "numero": "",
+      "complemento": ""
+    },
+    {
+      "id": "f405",
+      "cnpj": "654987212",
+      "nome": "voce pede",
+      "nomeFantasia": "123 viagens",
+      "contato": "32327512",
+      "email": "vocepede@gmail.com",
+      "cep": "89265573",
+      "pais": "",
+      "estado": "",
+      "cidade": "",
+      "rua": "",
+      "numero": "",
+      "complemento": ""
+    },
+    {
+      "id": "9953",
+      "cnpj": "28.678.861/0001-42",
+      "nome": "Voce pede ",
+      "nomeFantasia": "qualquer coisa",
+      "contato": "40028922",
+      "email": "vocepede@gmail.com",
+      "cep": "89265573",
+      "pais": "Brasil",
+      "estado": "SC",
+      "cidade": "Jaragua",
+      "rua": "rua tal",
+      "numero": "123",
+      "complemento": "nao tem"
+    }
+  ]
+}

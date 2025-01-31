@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fnando/cnpj": "^2.0.0",
     "bootstrap": "^5.3.3",
     "cnpj": "^5.0.0",
     "lucide-react": "^0.474.0",

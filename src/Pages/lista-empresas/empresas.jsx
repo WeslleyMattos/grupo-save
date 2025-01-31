@@ -1,44 +1,28 @@
-import { useState } from 'react';
-import { Search, Plus, Pencil, Trash2 } from 'lucide-react';
-import './empresas.css';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, Plus, Pencil, Trash2 } from "lucide-react";
+import "./empresas.css";
 
 const Empresas = () => {
-  const [empresas] = useState([
-    {
-      nome: 'W. Wandercock Carved Auto Pecas',
-      email: 'BARBAJUTOPECA@GMAIL.COM',
-      cnpj: '34.057.391/0001-00',
-      estado: 'RJ',
-      contato: '(22) 3081-2251',
-      cidade: 'MACAE'
-    },
-    {
-      nome: 'Raposa F Silva Clínica Química',
-      email: 'COMASES@COMASES.COM.BR',
-      cnpj: '24.532.578/0001-68',
-      estado: 'MG',
-      contato: '(31) 3331-6275',
-      cidade: 'BELO HORIZONTE'
-    },
-    {
-      nome: 'Palanha E Confeitaria São Jose',
-      email: 'APADARIASJOJOSE@HOTMAIL.COM',
-      cnpj: '51.085.959/0001-08',
-      estado: 'SP',
-      contato: '(18) 3659-1247',
-      cidade: 'BILAC'
-    },
-    {
-      nome: 'Fla Administradora De Bens LTDA',
-      email: 'teste@teste.com.br',
-      cnpj: '10.487.508/0001-10',
-      estado: 'SC',
-      contato: '(47) 3275-9100',
-      cidade: 'JARAGUA DO SUL'
-    }
-  ]);
+  const [empresas, setEmpresas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState('');
+  // Fetch empresas from json-server
+  useEffect(() => {
+    const fetchEmpresas = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/empresas");
+        const data = await response.json();
+        setEmpresas(data);
+      } catch (error) {
+        console.error("Erro ao buscar empresas:", error);
+      }
+    };
+
+    fetchEmpresas();
+  }, []);
+
   const filteredEmpresas = empresas.filter((empresa) =>
     empresa.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -62,7 +46,7 @@ const Empresas = () => {
             <Search size={20} />
           </button>
         </div>
-        <button className="btn btn-primary">
+        <button className="btn btn-primary" onClick={() => navigate("/cadastro-empresas")}>
           <Plus size={20} /> Criar Empresa
         </button>
       </div>
@@ -81,8 +65,8 @@ const Empresas = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredEmpresas.map((empresa, index) => (
-              <tr key={index}>
+            {filteredEmpresas.map((empresa) => (
+              <tr key={empresa.id}>
                 <td>{empresa.nome}</td>
                 <td>{empresa.email}</td>
                 <td>{empresa.cnpj}</td>

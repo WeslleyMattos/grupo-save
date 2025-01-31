@@ -1,8 +1,85 @@
+import { useState } from "react";
 import { Tabs, Tab, Form, Button, Row, Col } from "react-bootstrap";
-
+import { isValid as isValidCNPJ } from "@fnando/cnpj"; //Unica biblioteca que encontrei para validar CNPJ
 import "./cadastroEmpresas.css";
 
 const CadastroEmpresas = () => {
+  const [formData, setFormData] = useState({
+    cnpj: "",
+    nome: "",
+    nomeFantasia: "",
+    contato: "",
+    email: "",
+    cep: "",
+    pais: "",
+    estado: "",
+    cidade: "",
+    rua: "",
+    numero: "",
+    complemento: "",
+  });
+
+  const [errors, setErrors] = useState({ cnpj: "" });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+    if (id === "cnpj") validateCNPJ(value);
+  };
+
+  const validateCNPJ = (cnpj) => {
+    if (!isValidCNPJ(cnpj)) {
+      setErrors((prevErrors) => ({ ...prevErrors, cnpj: "CNPJ inválido!" }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, cnpj: "" }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isValidCNPJ(formData.cnpj)) {
+      alert("CNPJ inválido! Corrija antes de enviar.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3001/empresas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert("Empresa cadastrada com sucesso!");
+        setFormData({
+          cnpj: "",
+          nome: "",
+          nomeFantasia: "",
+          contato: "",
+          email: "",
+          cep: "",
+          pais: "",
+          estado: "",
+          cidade: "",
+          rua: "",
+          numero: "",
+          complemento: "",
+        });
+      } else {
+        alert("Erro ao cadastrar a empresa.");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Erro ao cadastrar a empresa.");
+    }
+  };
+
   return (
     <div className="d-flex">
       <div className="container-fluid">
@@ -10,185 +87,163 @@ const CadastroEmpresas = () => {
           <h2 className="p-4">Cadastro de Empresas</h2>
         </div>
 
-        <Tabs
-          defaultActiveKey="dadosGerais"
-          id="cadastro-tabs"
-          className="mb-3"
-        >
+        <Tabs defaultActiveKey="dadosGerais" id="cadastro-tabs" className="mb-3">
           <Tab eventKey="dadosGerais" title="Dados Gerais">
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <Row className="mb-3">
                 <Col md={4}>
-                  <Form.Group controlId="formCnpj">
+                  <Form.Group controlId="cnpj">
                     <Form.Label>CNPJ</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o CNPJ" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite o CNPJ"
+                      value={formData.cnpj}
+                      onChange={handleChange}
+                      isInvalid={!!errors.cnpj}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.cnpj}
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formNome">
+                  <Form.Group controlId="nome">
                     <Form.Label>Nome</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Nome" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite o Nome"
+                      value={formData.nome}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formNomeFantasia">
+                  <Form.Group controlId="nomeFantasia">
                     <Form.Label>Nome Fantasia</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Digite o Nome Fantasia"
+                      value={formData.nomeFantasia}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
               </Row>
+
               <Row className="mb-3">
                 <Col md={4}>
-                  <Form.Group controlId="formContato">
+                  <Form.Group controlId="contato">
                     <Form.Label>Contato</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Contato" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite o Contato"
+                      value={formData.contato}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formEmail">
+                  <Form.Group controlId="email">
                     <Form.Label>E-mail</Form.Label>
-                    <Form.Control type="email" placeholder="Digite o E-mail" />
+                    <Form.Control
+                      type="email"
+                      placeholder="Digite o E-mail"
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formCep">
+                  <Form.Group controlId="cep">
                     <Form.Label>CEP</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o CEP" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite o CEP"
+                      value={formData.cep}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
               </Row>
+
               <Row className="mb-3">
                 <Col md={4}>
-                  <Form.Group controlId="formPais">
+                  <Form.Group controlId="pais">
                     <Form.Label>País</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o País" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite o País"
+                      value={formData.pais}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formEstado">
+                  <Form.Group controlId="estado">
                     <Form.Label>Estado</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Estado" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite o Estado"
+                      value={formData.estado}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formCidade">
+                  <Form.Group controlId="cidade">
                     <Form.Label>Cidade</Form.Label>
-                    <Form.Control type="text" placeholder="Digite a Cidade" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite a Cidade"
+                      value={formData.cidade}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
               </Row>
+
               <Row className="mb-3">
                 <Col md={6}>
-                  <Form.Group controlId="formRua">
+                  <Form.Group controlId="rua">
                     <Form.Label>Rua</Form.Label>
-                    <Form.Control type="text" placeholder="Digite a Rua" />
+                    <Form.Control
+                      type="text"
+                      placeholder="Digite a Rua"
+                      value={formData.rua}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={2}>
-                  <Form.Group controlId="formNumero">
+                  <Form.Group controlId="numero">
                     <Form.Label>Número</Form.Label>
-                    <Form.Control type="text" placeholder="12345" />
+                    <Form.Control
+                      type="text"
+                      placeholder="12345"
+                      value={formData.numero}
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={4}>
-                  <Form.Group controlId="formComplemento">
+                  <Form.Group controlId="complemento">
                     <Form.Label>Complemento</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Digite o Complemento"
+                      value={formData.complemento}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
               </Row>
-            </Form>
-          </Tab>
-          <Tab eventKey="filiais" title="Filiais">
-            <Form>
-              <Row className="mb-3">
-                <Col md={6}>
-                  <Form.Group controlId="formNomeFilial">
-                    <Form.Label>Nome da Filial</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Digite o Nome da Filial"
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group controlId="formCnpjFilial">
-                    <Form.Label>CNPJ</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Digite o CNPJ da Filial"
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="formEnderecoFilial">
-                    <Form.Label>Endereço</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Endereço" />
-                  </Form.Group>
-                </Col>
-                <Col md={2}>
-                  <Form.Group controlId="formNumeroFilial">
-                    <Form.Label>Número</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Número" />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formBairroFilial">
-                    <Form.Label>Bairro</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Bairro" />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="formCidadeFilial">
-                    <Form.Label>Cidade</Form.Label>
-                    <Form.Control type="text" placeholder="Digite a Cidade" />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formEstadoFilial">
-                    <Form.Label>Estado</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Estado" />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="formCepFilial">
-                    <Form.Label>CEP</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o CEP" />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row className="mb-3">
-                <Col md={6}>
-                  <Form.Group controlId="formResponsavelFilial">
-                    <Form.Label>Responsável</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Digite o Nome do Responsável"
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group controlId="formTelefoneFilial">
-                    <Form.Label>Telefone</Form.Label>
-                    <Form.Control type="text" placeholder="Digite o Telefone" />
-                  </Form.Group>
-                </Col>
-              </Row>
+
+              <Button className="btn-save" type="submit">
+                Salvar
+              </Button>
             </Form>
           </Tab>
         </Tabs>
-
-        <Button className="btn-save">Salvar</Button>
       </div>
     </div>
   );

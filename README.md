@@ -3,7 +3,7 @@
 Este foi meu primeiro contato com react, projeto consiste em um sistema de cadastro e gerenciamento de empresas utilizando React, Bootstrap e uma API fake com JSON Server.
 
 ## Tecnologias Utilizadas
-- **React**: Biblioteca para construção da interface do usuário
+- **React + Vite**: Biblioteca para construção da interface do usuário
 - **React Router Dom**: Gerenciamento de rotas
 - **Bootstrap & React-Bootstrap**: Estilização responsiva
 - **Lucide-react**: Conjunto de ícones modernos
@@ -11,7 +11,7 @@ Este foi meu primeiro contato com react, projeto consiste em um sistema de cadas
 - **CNPJ**: Validador de CNPJ
 
 ## Requisitos
-- Node.js (v14 ou superior)
+- Node.js
 - npm ou yarn
 
 ## Como Configurar o Projeto
